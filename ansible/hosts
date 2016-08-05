@@ -13,7 +13,6 @@ node2
 node1
 
 [worker]
-node1
 node2
 
 [swarm:vars]
