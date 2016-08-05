@@ -1,0 +1,5 @@
+---
+- name: 重启 network
+  service:
+    name: network
+    state: restarted

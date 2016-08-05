@@ -1,0 +1,7 @@
+---
+- name: 重启 systemd
+  command: /usr/bin/systemctl daemon-reload
+- name: 重启 docker
+  service:
+    name: docker
+    state: restarted

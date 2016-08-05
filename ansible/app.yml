@@ -1,0 +1,19 @@
+---
+
+- name: snat
+  hosts: bastion
+  remote_user: root
+  tasks:
+    - include: includes/tasks-snat.yml
+  handlers:
+    - include: includes/handler-restart-network.yml
+
+- name: node
+  hosts: swarm
+  remote_user: root
+  tasks:
+    - name: ping
+      ping:
+  roles:
+    - init
+    - docker

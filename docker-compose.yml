@@ -1,0 +1,10 @@
+version: '2'
+services:
+  ansible:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./ansible:/etc/ansible
+      - ./ssh:/root/.ssh
+    tty: true

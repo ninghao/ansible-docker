@@ -1,0 +1,34 @@
+---
+- name: 停止 firewalld
+  service:
+    name: firewalld
+    state: stopped
+    enabled: no
+
+- name: 配置 SNAT
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: 'net.ipv4.ip_forward = 1'
+    state: present
+  notify:
+    - 重启 network
+  tags:
+    - snat
+
+- name: 配置 iptables 的 SNAT 规则
+  iptables:
+    chain: POSTROUTING
+    source: 10.1.0.0/16
+    jump: SNAT
+    table: nat
+    to_source: 10.1.0.1
+    # 需要 ansible 2.2+
+  become: yes
+  tags:
+    - snat
+
+- name: ssh 密钥登录
+  authorized_key:
+    user: root
+    key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+    state: present

@@ -1,0 +1,25 @@
+---
+
+- name: 添加 docker 正式版仓库
+  copy:
+    src: docker.repo
+    dest: /etc/yum.repos.d/
+
+- name: 安装 docker
+  yum:
+    name: docker-engine
+    state: latest
+
+- name: 启动 docker 服务
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: 配置 docker 服务
+  template:
+    src: docker.service.j2
+    dest: /etc/systemd/system/docker.service
+  notify:
+    - 重启 systemd
+    - 重启 docker

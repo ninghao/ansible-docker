@@ -1,0 +1,20 @@
+node1     ansible_host=10.1.0.1
+node2     ansible_host=10.1.0.2
+bastion   ansible_host=112.74.54.115
+
+[bastion]
+bastion
+
+[swarm]
+node1
+node2
+
+[leader]
+node1
+
+[worker]
+node1
+node2
+
+[swarm:vars]
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -q root@112.74.54.115"'
